@@ -1,4 +1,7 @@
 <template>
+  <BaseDialog :show="!!error" title="An error ocurred" @close="handleError">
+    <p>{{ error }}</p>
+  </BaseDialog>
   <section>
     <BaseCard>
       <CoachFilter @changeFilter="filterCoaches"></CoachFilter>
@@ -7,79 +10,102 @@
   <section>
     <BaseCard>
       <div class="controls">
-        <BaseButton mode="outline">Refresh</BaseButton>
-        <BaseButton link to="/register" v-if="!isCoach"
-          >Register as Coach</BaseButton
-        >
+        <BaseButton mode="outline" @click="loadCoaches">Refresh</BaseButton>
+        <BaseButton link to="/register" v-if="!isCoach && !isLoading">
+          Register as Coach
+        </BaseButton>
       </div>
-      <ul v-if="hasCoaches">
+      <div v-if="isLoading">
+        <BaseSpinner></BaseSpinner>
+      </div>
+      <h3 v-else-if="!hasCoaches">No coaches found.</h3>
+      <ul v-else>
         <CoachItem
           v-for="coach in coaches"
           :key="coach.id"
           :coach="coach"
         ></CoachItem>
       </ul>
-      <h3 v-else>No coaches found.</h3>
     </BaseCard>
   </section>
 </template>
 
 <script>
-  // import { mapState } from "pinia";
-  import { useCoachesStore } from "../../stores/modules/coaches/index";
+// import { mapState } from "pinia";
+import { useCoachesStore } from '../../stores/modules/coaches/index';
 
-  import CoachItem from "../../components/coaches/CoachItem.vue";
-  import BaseCard from "../../components/ui/BaseCard.vue";
-  import BaseButton from "../../components/ui/BaseButton.vue";
-  import CoachFilter from "../../components/coaches/CoachFilter.vue";
+import CoachItem from '../../components/coaches/CoachItem.vue';
+import BaseCard from '../../components/ui/BaseCard.vue';
+import BaseButton from '../../components/ui/BaseButton.vue';
+import CoachFilter from '../../components/coaches/CoachFilter.vue';
+import BaseSpinner from '../../components/ui/BaseSpinner.vue';
+import BaseDialog from '../../components/ui/BaseDialog.vue';
+import { handleError } from 'vue';
 
-  export default {
-    components: {
-      CoachItem,
-      BaseCard,
-      BaseButton,
-      CoachFilter,
+export default {
+  components: {
+    CoachItem,
+    BaseCard,
+    BaseButton,
+    CoachFilter,
+    BaseSpinner,
+  },
+  data() {
+    return {
+      store: useCoachesStore(),
+      isLoading: false,
+      error: null,
+      coaches: []
+    };
+  },
+  computed: {
+    // ...mapState(useCoachesStore, {
+    //   coaches: 'listCoaches',
+    // }),
+    hasCoaches() {
+      return !this.isLoading && this.store.hasCoaches;
     },
-    data() {
-      return {
-        store: useCoachesStore(),
-      };
+    isCoach() {
+      return this.store.isCoach;
     },
-    computed: {
-      // ...mapState(useCoachesStore, {
-      //   coaches: "listCoaches",
-      // }),
-      hasCoaches() {
-        return this.store.hasCoaches;
-      },
-      isCoach() {
-        return this.store.isCoach;
-      },
-      coaches() {
-        this.store.coaches;
-      },
+  },
+  methods: {
+    filterCoaches(filter) {
+      this.coaches = this.store.filteredCoaches(filter);
     },
-    methods: {
-      filterCoaches(filter) {
-        this.coaches = this.store.filteredCoaches(filter);
-      },
+    async loadCoaches() {
+      this.isLoading = true;
+
+      try {
+        await this.store.loadCoaches();
+      }
+      catch(err) {
+        this.error = err.message || 'Something went wrong';
+      }
+
+      this.isLoading = false;
     },
-    async created() {
-      await this.store.loadCoaches();
-      this.coaches = this.store.coaches;
-    },
-  };
+
+    handleError() {
+      this.error = null;
+    }
+  },
+  async created() {
+    await this.loadCoaches();
+    this.coaches = this.store.coaches;
+  },
+};
 </script>
 
 <style scoped>
-  ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 
-  .controls {
-    display: flex;
-    justify-content: space-between;
-  }
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
 </style>

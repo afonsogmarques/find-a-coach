@@ -2,10 +2,13 @@ import { useStore } from "../..";
 
 export default {
   receivedRequests(state) {
-    const rootStore = useStore();
-    return state.requests?.filter((request) => request.coachId === rootStore.userId) || [];
+    // const { userId } = useStore();
+    // return state.requests?.filter((request) => request.coachId === userId) || [];
+    return state.requests;
   },
   hasRequests(state) {
-    return state.requests && state.requests.length;
+    // const { userId } = useStore();
+    // return state.requests && !!state.requests.some((req) => req.coachId === userId);
+    return !!state.requests?.length;
   }
 };
