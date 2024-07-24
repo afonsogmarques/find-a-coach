@@ -4,5 +4,8 @@ export default {
   },
   hasCoaches(state) {
     return !!state.coaches?.length;
+  },
+  getCoach(state) {
+    return ({ id }) => state.coaches?.find(coach => coach.id === id);
   }
 }

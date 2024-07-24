@@ -1,18 +1,78 @@
 <template>
   <li>
     <h3>{{ fullName }}</h3>
-    <h4>${{ rate }}/hour</h4>
+    <h4>${{ coach.rate }}/hour</h4>
     <div>
-      <span v-for="area in areas" :key="area">{{ area }}</span>
+      <BaseBadge
+        v-for="area in coach.areas"
+        :key="area"
+        :type="area"
+        :text="area"
+      >
+        {{ area }}
+      </BaseBadge>
     </div>
     <div class="actions">
-      <RouterLink to="/coaches/c1/contact">Contact</RouterLink>
-      <RouterLink to="/coaches/c1">View Details</RouterLink>
+      <BaseButton link :to="coachContactLink" mode="outline">
+        Contact
+      </BaseButton>
+      <BaseButton link :to="coachDetailsLink">View Details</BaseButton>
     </div>
   </li>
 </template>
 
 <script>
-import { RouterLink } from 'vue-router';
+  import BaseBadge from "../ui/BaseBadge.vue";
+  import BaseButton from "../ui/BaseButton.vue";
+
+  export default {
+    components: {
+      BaseButton,
+      BaseBadge,
+    },
+    props: {
+      coach: {
+        type: Object,
+        required: true,
+      },
+    },
+    computed: {
+      fullName() {
+        return `${this.coach.firstName} ${this.coach.lastName}`;
+      },
+      coachContactLink() {
+        return `${this.$route.path}/${this.coach.id}/contact`;
+      },
+      coachDetailsLink() {
+        return `${this.$route.path}/${this.coach.id}`;
+      },
+    },
+  };
 </script>
 
+<style scoped>
+  li {
+    margin: 1rem 0;
+    border: 1px solid #424242;
+    border-radius: 12px;
+    padding: 1rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+  }
+
+  h3,
+  h4 {
+    margin: 0.5rem 0;
+  }
+
+  div {
+    margin: 0.5rem 0;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+</style>
