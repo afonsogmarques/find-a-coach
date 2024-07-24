@@ -1,13 +1,13 @@
 import { defineStore } from "pinia";
-import mutations from "./mutations";
 import actions from "./actions";
 import getters from "./getters";
 
-export const useRequestsStore = defineStore({
+export const useRequestsStore = defineStore('requests', {
   state() {
-    return {};
+    return {
+      requests: [],
+    };
   },
-  mutations,
   actions,
   getters
 });

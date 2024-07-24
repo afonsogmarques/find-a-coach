@@ -1,12 +1,16 @@
 <template>
   <section>
-    <BaseCard> FILTER </BaseCard>
+    <BaseCard>
+      <CoachFilter @changeFilter="filterCoaches"></CoachFilter>
+    </BaseCard>
   </section>
   <section>
     <BaseCard>
       <div class="controls">
         <BaseButton mode="outline">Refresh</BaseButton>
-        <BaseButton link to="/register">Register as Coach</BaseButton>
+        <BaseButton link to="/register" v-if="!isCoach"
+          >Register as Coach</BaseButton
+        >
       </div>
       <ul v-if="hasCoaches">
         <CoachItem
@@ -21,32 +25,45 @@
 </template>
 
 <script>
-  import { mapState } from "pinia";
+  // import { mapState } from "pinia";
   import { useCoachesStore } from "../../stores/modules/coaches/index";
 
   import CoachItem from "../../components/coaches/CoachItem.vue";
   import BaseCard from "../../components/ui/BaseCard.vue";
   import BaseButton from "../../components/ui/BaseButton.vue";
+  import CoachFilter from "../../components/coaches/CoachFilter.vue";
 
   export default {
     components: {
       CoachItem,
       BaseCard,
       BaseButton,
+      CoachFilter,
     },
     data() {
       return {
         store: useCoachesStore(),
+        coaches: [],
       };
     },
     computed: {
-      // Next 2 computed methods both access the store in different ways.
-      ...mapState(useCoachesStore, {
-        coaches: "listCoaches",
-      }),
+      // ...mapState(useCoachesStore, {
+      //   coaches: "listCoaches",
+      // }),
       hasCoaches() {
         return this.store.hasCoaches;
       },
+      isCoach() {
+        return this.store.isCoach;
+      },
+    },
+    methods: {
+      filterCoaches(filter) {
+        this.coaches = this.store.filteredCoaches(filter);
+      },
+    },
+    created() {
+      this.coaches = this.store.listCoaches;
     },
   };
 </script>

@@ -1,14 +1,9 @@
 <template>
   <li>
     <h3>{{ fullName }}</h3>
-    <h4>${{ coach.rate }}/hour</h4>
+    <h4>${{ hourlyRate }}/hour</h4>
     <div>
-      <BaseBadge
-        v-for="area in coach.areas"
-        :key="area"
-        :type="area"
-        :text="area"
-      >
+      <BaseBadge v-for="area in areas" :key="area" :type="area" :text="area">
         {{ area }}
       </BaseBadge>
     </div>
@@ -45,6 +40,12 @@
       },
       coachDetailsLink() {
         return `${this.$route.path}/${this.coach.id}`;
+      },
+      hourlyRate() {
+        return this.coach.hourlyRate;
+      },
+      areas() {
+        return this.coach.areas;
       },
     },
   };

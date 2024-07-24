@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import actions from "./actions";
 import getters from "./getters";
-import mutations from "./mutations";
 
 export const useCoachesStore = defineStore('coaches', {
   state() {
@@ -11,7 +10,7 @@ export const useCoachesStore = defineStore('coaches', {
           id: 'c1',
           firstName: 'Maximilian',
           lastName: 'Schwarzmüller',
-          areas: ['frontend', 'backend', 'career'],
+          areas: ['backend', 'career'],
           description:
             "I'm Maximilian and I've worked as a freelance web developer for years. Let me help you become a developer as well!",
           hourlyRate: 30
@@ -28,7 +27,6 @@ export const useCoachesStore = defineStore('coaches', {
       ]
     };
   },
-  mutations,
   getters,
   actions,
 });

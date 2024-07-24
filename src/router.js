@@ -3,8 +3,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import CoachDetails from "./pages/coaches/CoachDetails.vue";
 import CoachesList from "./pages/coaches/CoachesList.vue";
 import CoachRegistration from "./pages/coaches/CoachRegistration.vue";
-import ContactCoach from "./pages/coaches/requests/ContactCoach.vue";
-import RequestsReceived from "./pages/coaches/requests/RequestsReceived.vue";
+import ContactCoach from "./pages/requests/ContactCoach.vue";
+import RequestsReceived from "./pages/requests/ReceivedRequests.vue";
 import NotFound from "./pages/NotFound.vue";
 
 export default createRouter({
