@@ -43,7 +43,6 @@
     data() {
       return {
         store: useCoachesStore(),
-        coaches: [],
       };
     },
     computed: {
@@ -56,14 +55,18 @@
       isCoach() {
         return this.store.isCoach;
       },
+      coaches() {
+        this.store.coaches;
+      },
     },
     methods: {
       filterCoaches(filter) {
         this.coaches = this.store.filteredCoaches(filter);
       },
     },
-    created() {
-      this.coaches = this.store.listCoaches;
+    async created() {
+      await this.store.loadCoaches();
+      this.coaches = this.store.coaches;
     },
   };
 </script>
