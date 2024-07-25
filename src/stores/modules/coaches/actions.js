@@ -1,7 +1,9 @@
+import { useAuthStore } from "../..";
+
 export default {
   async registerCoach(payload) {
-    const id = new Date().getTime();
-    const url = `https://find-a-coach-b1c07-default-rtdb.europe-west1.firebasedatabase.app/coaches/${id}.json`;
+    const { idToken, userId } = useAuthStore();
+    const url = `https://find-a-coach-b1c07-default-rtdb.europe-west1.firebasedatabase.app/coaches/${userId}.json?auth=${idToken}`;
 
     const req = await fetch(url, {
       method: 'PUT',
@@ -12,12 +14,13 @@ export default {
       // Handle error...
     }
 
-    this.coaches.unshift({ ...payload, id });
+    this.coaches.unshift({ ...payload, id: userId });
   },
 
   async loadCoaches(payload) {
     if (!this.shouldUpdate && !payload.forceRefresh) return;
 
+    const { token } = useAuthStore();
     const url = `https://find-a-coach-b1c07-default-rtdb.europe-west1.firebasedatabase.app/coaches.json`;
     const res = await fetch(url);
     const resData = await res.json();

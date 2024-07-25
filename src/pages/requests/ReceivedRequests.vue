@@ -24,11 +24,11 @@
 </template>
 
 <script>
-  import { useRequestsStore } from "../../stores/modules/requests";
-  import RequestItem from "../../components/requests/RequestItem.vue";
-  import BaseDialog from "../../components/ui/BaseDialog.vue";
-  import { handleError } from "vue";
-  import BaseSpinner from "../../components/ui/BaseSpinner.vue";
+  import { useRequestsStore } from '../../stores/modules/requests';
+
+  import RequestItem from '../../components/requests/RequestItem.vue';
+  import BaseDialog from '../../components/ui/BaseDialog.vue';
+  import BaseSpinner from '../../components/ui/BaseSpinner.vue';
 
   export default {
     components: {
@@ -56,7 +56,7 @@
         this.store
           .loadRequests()
           .catch(
-            (error) => (this.error = error.message || "Something went wrong.")
+            (error) => (this.error = error.message || 'Something went wrong.')
           )
           .finally(() => (this.isLoading = false));
       },

@@ -1,4 +1,4 @@
-import { useStore } from '../..';
+import { useAuthStore } from '../..';
 import { handleJSONFetch } from '../../../helpers';
 
 export default {
@@ -16,8 +16,8 @@ export default {
   },
 
   async loadRequests() {
-    const { userId: coachId } = useStore();
-    const url = `https://find-a-coach-b1c07-default-rtdb.europe-west1.firebasedatabase.app/requests/${coachId}.json`;
+    const { userId: coachId, idToken } = useAuthStore();
+    const url = `https://find-a-coach-b1c07-default-rtdb.europe-west1.firebasedatabase.app/requests/${coachId}.json?auth=${idToken}`;
 
     return fetch(url)
       .then(handleJSONFetch)

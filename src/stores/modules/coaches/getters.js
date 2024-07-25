@@ -1,5 +1,5 @@
 import { getAppliedFilters } from '../../../helpers';
-import { useStore } from '../..';
+import { useAuthStore } from '../..';
 
 export default {
   listCoaches(state) {
@@ -23,8 +23,8 @@ export default {
   },
 
   isCoach(state) {
-    const rootStore = useStore();
-    return state.coaches.some((coach) => coach.id === rootStore.userId);
+    const { userId } = useAuthStore();
+    return state.coaches.some((coach) => coach.id === userId);
   },
 
   shouldUpdate(state) {
