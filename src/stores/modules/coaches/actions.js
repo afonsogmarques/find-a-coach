@@ -15,7 +15,9 @@ export default {
     this.coaches.unshift({ ...payload, id });
   },
 
-  async loadCoaches() {
+  async loadCoaches(payload) {
+    if (!this.shouldUpdate && !payload.forceRefresh) return;
+
     const url = `https://find-a-coach-b1c07-default-rtdb.europe-west1.firebasedatabase.app/coaches.json`;
     const res = await fetch(url);
     const resData = await res.json();
@@ -35,5 +37,10 @@ export default {
     }
 
     this.coaches = coaches;
+    this.setFetchTimestamp();
   },
+
+  setFetchTimestamp() {
+    this.lastFetch = new Date().getTime();
+  }
 };

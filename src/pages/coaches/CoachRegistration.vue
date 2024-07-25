@@ -1,10 +1,12 @@
 <template>
-  <section>
-    <BaseCard>
-      <h2>Register as a coach now!</h2>
-      <CoachForm @saveData="saveData"></CoachForm>
-    </BaseCard>
-  </section>
+  <div>
+    <section>
+      <BaseCard>
+        <h2>Register as a coach now!</h2>
+        <CoachForm @saveData="saveData"></CoachForm>
+      </BaseCard>
+    </section>
+  </div>
 </template>
 
 <script>

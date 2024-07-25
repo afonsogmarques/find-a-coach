@@ -5,6 +5,7 @@ import getters from "./getters";
 export const useCoachesStore = defineStore('coaches', {
   state() {
     return {
+      lastFetch: null,
       coaches: []
     };
   },
