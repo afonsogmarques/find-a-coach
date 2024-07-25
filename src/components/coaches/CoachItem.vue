@@ -8,7 +8,12 @@
       </BaseBadge>
     </div>
     <div class="actions">
-      <BaseButton link :to="coachContactLink" mode="outline">
+      <BaseButton
+        link
+        :to="coachContactLink"
+        mode="outline"
+        v-if="!coachIsUser"
+      >
         Contact
       </BaseButton>
       <BaseButton link :to="coachDetailsLink">View Details</BaseButton>
@@ -17,8 +22,11 @@
 </template>
 
 <script>
-  import BaseBadge from "../ui/BaseBadge.vue";
-  import BaseButton from "../ui/BaseButton.vue";
+  import { useAuthStore } from '../../stores';
+  import BaseBadge from '../ui/BaseBadge.vue';
+  import BaseButton from '../ui/BaseButton.vue';
+
+  import { mapState } from 'pinia';
 
   export default {
     components: {
@@ -47,6 +55,10 @@
       areas() {
         return this.coach.areas;
       },
+      coachIsUser() {
+        return this.coach.id === this.userId;
+      },
+      ...mapState(useAuthStore, ['userId']),
     },
   };
 </script>

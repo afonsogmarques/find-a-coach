@@ -27,7 +27,11 @@ const router = createRouter({
       component: CoachRegistration,
       beforeEnter: handleProtectedRoute
     },
-    { path: '/requests', component: ReceivedRequests },
+    {
+      path: '/requests',
+      component: ReceivedRequests,
+      beforeEnter: handleProtectedRoute
+    },
     {
       path: '/auth',
       name: 'auth',

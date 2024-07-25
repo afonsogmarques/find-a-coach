@@ -6,7 +6,7 @@
         <h3>${{ rate }}/hour</h3>
       </BaseCard>
     </section>
-    <section>
+    <section v-if="!coachIsUser">
       <BaseCard>
         <header>
           <h2>Interested? Reach out now:</h2>
@@ -30,12 +30,14 @@
 </template>
 
 <script>
-  import { RouterView } from "vue-router";
+  import { RouterView } from 'vue-router';
 
-  import BaseCard from "../../components/ui/BaseCard.vue";
-  import BaseButton from "../../components/ui/BaseButton.vue";
-  import BaseBadge from "../../components/ui/BaseBadge.vue";
-  import { useCoachesStore } from "../../stores/modules/coaches";
+  import BaseCard from '../../components/ui/BaseCard.vue';
+  import BaseButton from '../../components/ui/BaseButton.vue';
+  import BaseBadge from '../../components/ui/BaseBadge.vue';
+
+  import { useCoachesStore } from '../../stores/modules/coaches';
+  import { useAuthStore } from '../../stores';
 
   export default {
     components: {
@@ -52,12 +54,13 @@
     },
     data() {
       return {
-        store: useCoachesStore(),
+        coachStore: useCoachesStore(),
+        authStore: useAuthStore(),
       };
     },
     computed: {
       coach() {
-        return this.store.getCoach({ id: this.id });
+        return this.coachStore.getCoach({ id: this.id });
       },
       fullName() {
         return `${this.coach.firstName} ${this.coach.lastName}`;
@@ -73,6 +76,9 @@
       },
       contactLink() {
         return `/coaches/${this.$route.params.id}/contact`;
+      },
+      coachIsUser() {
+        return this.authStore.userId === this.id;
       },
     },
   };
