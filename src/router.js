@@ -47,12 +47,12 @@ function handleProtectedRoute() {
   if (!isAuthenticated) return { name: 'auth' };
 }
 
-function protectLoginPage(_, _1, next) {
+function protectLoginPage() {
   const { isAuthenticated } = useAuthStore();
 
   return isAuthenticated
-    ? next(false)
-    : next();
+    ? { name: 'coaches' }
+    : true;
 }
 
 export default router;

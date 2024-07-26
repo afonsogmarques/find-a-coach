@@ -60,19 +60,19 @@
     },
     computed: {
       coach() {
-        return this.coachStore.getCoach({ id: this.id });
+        return this.coachStore?.getCoach({ id: this.id });
       },
       fullName() {
-        return `${this.coach.firstName} ${this.coach.lastName}`;
+        return `${this.coach?.firstName} ${this.coach?.lastName}`;
       },
       rate() {
-        return this.coach.hourlyRate;
+        return this.coach?.hourlyRate;
       },
       description() {
-        return this.coach.description;
+        return this.coach?.description;
       },
       areas() {
-        return this.coach.areas;
+        return this.coach?.areas;
       },
       contactLink() {
         return `/coaches/${this.$route.params.id}/contact`;
@@ -80,6 +80,9 @@
       coachIsUser() {
         return this.authStore.userId === this.id;
       },
+    },
+    created() {
+      this.coachStore.loadCoaches();
     },
   };
 </script>

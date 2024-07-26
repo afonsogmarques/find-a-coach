@@ -66,7 +66,7 @@ export const useAuthStore = defineStore('store', {
     },
 
     autoLogin() {
-      const idToken = localStorage.getItem('token');
+      const idToken = localStorage.getItem('idToken');
       const userId = localStorage.getItem('userId');
       const tokenExpiration = localStorage.getItem('tokenExpiration');
 

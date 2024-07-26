@@ -18,7 +18,7 @@ export default {
   },
 
   async loadCoaches(payload) {
-    if (!this.shouldUpdate && !payload.forceRefresh) return;
+    if (!this.shouldUpdate && !payload?.forceRefresh) return;
 
     const url = `https://find-a-coach-b1c07-default-rtdb.europe-west1.firebasedatabase.app/coaches.json`;
     const res = await fetch(url);
